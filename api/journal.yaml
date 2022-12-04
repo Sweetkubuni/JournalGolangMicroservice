@@ -1,0 +1,85 @@
+openapi: 3.1.0
+x-stoplight:
+  id: hjc8wpc8lvorf
+info:
+  title: AudioJournal
+  version: '1.0'
+  summary: Basic CRUD for Audio Journals
+  description: This microservice stores and retrieves Audio Journals; each journal has a title and an associated audio file
+  contact:
+    name: lordcoder1990
+    email: lordcoder1990@gmail.com
+  license:
+    name: MIT
+    url: 'https://opensource.org/licenses/MIT'
+servers:
+  - url: 'http://localhost:3000'
+paths:
+  /journal:
+    post:
+      summary: Create New Journal
+      operationId: post-journal
+      responses:
+        '200':
+          description: User Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Journal'
+              examples: {}
+        '201':
+          description: Created
+        '400':
+          description: Missing Required Information
+        '409':
+          description: Email Already Taken
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Journal'
+            examples: {}
+        description: Post the necessary fields for the API to create a new user.
+      description: Create a new journal.
+    parameters: []
+    get:
+      summary: ''
+      operationId: get-journal
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Journal'
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties: {}
+      description: retrievel collection of Journals.
+components:
+  schemas:
+    Journal:
+      title: Journal
+      type: object
+      description: |-
+        Model of the Audio Journal.
+        This stores the string for Title.
+        This stores the binary for Audio file.
+      examples: []
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        audio:
+          type: string
+          description: Set to true if the user's email has been verified.
+          format: binary
+      required:
+        - title
+        - audio
